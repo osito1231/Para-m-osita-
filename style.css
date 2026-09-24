@@ -189,3 +189,184 @@ transform:rotate(-1deg)
 .you{font-size:18px}
 .signature{font-size:21px!important}
 }
+
+/* ========================================
+   ✨ ANIMACIONES ROMÁNTICAS
+   ======================================== */
+
+#contenido {
+  animation: abrirSorpresa 1s ease both;
+}
+
+@keyframes abrirSorpresa {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+
+/* Carta flotando ligeramente */
+
+.letter {
+  position: relative;
+  overflow: hidden;
+}
+
+.letter::before {
+  content: "♡";
+  position: absolute;
+  top: 25px;
+  right: 25px;
+
+  font-size: 42px;
+  color: rgba(146, 51, 94, 0.12);
+
+  transform: rotate(12deg);
+  pointer-events: none;
+}
+
+
+/* Separadores más bonitos */
+
+.letter-divider {
+  position: relative;
+  margin: 35px auto;
+  text-align: center;
+}
+
+.letter-divider::before,
+.letter-divider::after {
+  content: "";
+  display: inline-block;
+
+  width: 55px;
+  height: 1px;
+
+  background: rgba(146, 51, 94, 0.25);
+
+  vertical-align: middle;
+  margin: 0 14px;
+}
+
+.letter-divider span {
+  color: #92335e;
+  font-size: 24px;
+}
+
+
+/* Frases importantes */
+
+.big {
+  position: relative;
+  padding: 25px 18px;
+
+  text-align: center;
+
+  transform: scale(1);
+  transition:
+    transform .3s ease,
+    text-shadow .3s ease;
+}
+
+.big:hover {
+  transform: scale(1.02);
+}
+
+.highlight {
+  text-shadow: 0 5px 25px rgba(146, 51, 94, .15);
+}
+
+
+/* "Tú en..." */
+
+.you span,
+.you strong {
+  display: block;
+  transition:
+    transform .3s ease,
+    opacity .3s ease;
+}
+
+.you span:hover,
+.you strong:hover {
+  transform: translateX(4px);
+}
+
+
+/* Nota cursi */
+
+.little-note {
+  animation: respirar 3s ease-in-out infinite;
+}
+
+@keyframes respirar {
+
+  0%, 100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.025);
+  }
+}
+
+
+/* Firma */
+
+.signature {
+  margin-top: 50px;
+}
+
+.signature small {
+  display: block;
+  margin-bottom: 8px;
+  opacity: .65;
+}
+
+
+/* Corazón final */
+
+.promise {
+  animation: latidoSuave 2.2s ease-in-out infinite;
+}
+
+@keyframes latidoSuave {
+
+  0%, 100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.035);
+  }
+}
+
+
+/* Mejor comportamiento en iPhone */
+
+@media (max-width: 600px) {
+
+  .letter {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
+  .letter p {
+    line-height: 1.85;
+  }
+
+  .letter-divider::before,
+  .letter-divider::after {
+    width: 35px;
+    margin: 0 9px;
+  }
+
+}
