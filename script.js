@@ -1,155 +1,114 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // =========================
-  // ELEMENTOS PRINCIPALES
-  // =========================
-  const openBtn = document.getElementById("openBtn");
+  const btn = document.getElementById("openBtn");
   const contenido = document.getElementById("contenido");
   const cover = document.getElementById("cover");
   const music = document.getElementById("bgMusic");
-
-  const musicToggle = document.getElementById("musicToggle");
-  const volume = document.getElementById("volume");
-
+  const toggle = document.getElementById("musicToggle");
+  const vol = document.getElementById("volume");
 
   // =========================
-  // ABRIR LA SORPRESA ❤️
+  // ABRIR SORPRESA
   // =========================
-  if (openBtn) {
-    openBtn.addEventListener("click", () => {
 
+  if (btn) {
+    btn.addEventListener("click", () => {
+
+      // Mostrar TODO el contenido
       if (contenido) {
         contenido.classList.remove("hidden");
+        contenido.style.display = "block";
+        contenido.style.visibility = "visible";
+        contenido.style.opacity = "1";
       }
 
       // Música
       if (music) {
         music.volume = 0.72;
-
-        const playPromise = music.play();
-
-        if (playPromise !== undefined) {
-          playPromise.catch(() => {
-            console.log("El navegador bloqueó temporalmente el audio.");
-          });
-        }
+        music.play().catch(() => {});
       }
 
-      // Desvanecer portada
+      // Quitar portada
       if (cover) {
-        cover.style.transition = "opacity .8s ease";
+        cover.style.transition = "opacity .7s ease";
         cover.style.opacity = "0";
 
         setTimeout(() => {
           cover.style.display = "none";
+
+          // Nos lleva al principio de la sorpresa
           window.scrollTo({
             top: 0,
             behavior: "smooth"
           });
-        }, 800);
+        }, 700);
       }
     });
   }
 
 
   // =========================
-  // CONTADOR DESDE
-  // 5 DICIEMBRE 2025 - 11:00 AM
-  // HORA DE PERÚ 🇵🇪
+  // CONTADOR ❤️
   // =========================
 
   const start = new Date("2025-12-05T11:00:00-05:00");
 
-  const daysElement = document.getElementById("days");
-  const hoursElement = document.getElementById("hours");
-  const minutesElement = document.getElementById("minutes");
-  const secondsElement = document.getElementById("seconds");
+  const daysEl = document.getElementById("days");
+  const hoursEl = document.getElementById("hours");
+  const minutesEl = document.getElementById("minutes");
+  const secondsEl = document.getElementById("seconds");
 
   function updateCounter() {
 
-    const now = new Date();
+    let diff = Date.now() - start.getTime();
 
-    let difference = now.getTime() - start.getTime();
+    if (diff < 0) diff = 0;
 
-    if (difference < 0) {
-      difference = 0;
-    }
+    const total = Math.floor(diff / 1000);
 
-    const totalSeconds = Math.floor(difference / 1000);
+    const days = Math.floor(total / 86400);
+    const hours = Math.floor((total % 86400) / 3600);
+    const minutes = Math.floor((total % 3600) / 60);
+    const seconds = total % 60;
 
-    const days = Math.floor(totalSeconds / 86400);
+    if (daysEl) daysEl.textContent = days;
 
-    const hours = Math.floor(
-      (totalSeconds % 86400) / 3600
-    );
+    if (hoursEl)
+      hoursEl.textContent = String(hours).padStart(2, "0");
 
-    const minutes = Math.floor(
-      (totalSeconds % 3600) / 60
-    );
+    if (minutesEl)
+      minutesEl.textContent = String(minutes).padStart(2, "0");
 
-    const seconds = totalSeconds % 60;
-
-
-    if (daysElement) {
-      daysElement.textContent = days;
-    }
-
-    if (hoursElement) {
-      hoursElement.textContent =
-        String(hours).padStart(2, "0");
-    }
-
-    if (minutesElement) {
-      minutesElement.textContent =
-        String(minutes).padStart(2, "0");
-    }
-
-    if (secondsElement) {
-      secondsElement.textContent =
-        String(seconds).padStart(2, "0");
-    }
+    if (secondsEl)
+      secondsEl.textContent = String(seconds).padStart(2, "0");
   }
 
   updateCounter();
-
   setInterval(updateCounter, 1000);
 
 
   // =========================
-  // BOTÓN PLAY / PAUSA 🎵
+  // PLAY / PAUSA
   // =========================
 
-  if (musicToggle && music) {
+  if (toggle && music) {
 
-    musicToggle.addEventListener("click", () => {
+    toggle.addEventListener("click", () => {
 
       if (music.paused) {
 
-        music.play()
-          .then(() => {
-            musicToggle.textContent = "Ⅱ Pausar música";
-          })
-          .catch(() => {});
+        music.play().catch(() => {});
+
+        toggle.textContent = "Ⅱ Pausar música";
 
       } else {
 
         music.pause();
 
-        musicToggle.textContent = "▶ Reproducir música";
+        toggle.textContent = "▶ Reproducir música";
       }
 
     });
-
-
-    music.addEventListener("play", () => {
-      musicToggle.textContent = "Ⅱ Pausar música";
-    });
-
-
-    music.addEventListener("pause", () => {
-      musicToggle.textContent = "▶ Reproducir música";
-    });
-
   }
 
 
@@ -157,117 +116,80 @@ document.addEventListener("DOMContentLoaded", () => {
   // VOLUMEN
   // =========================
 
-  if (volume && music) {
+  if (vol && music) {
 
-    volume.addEventListener("input", () => {
+    vol.addEventListener("input", () => {
 
-      music.volume = Number(volume.value);
+      music.volume = Number(vol.value);
 
     });
-
   }
 
 
   // =========================
-  // ANIMACIONES AL HACER SCROLL
+  // ANIMACIONES
   // =========================
 
-  const animatedElements =
-    document.querySelectorAll(
-      ".reveal, .letter-section, .counter-section, .music-section"
-    );
+  const elements = document.querySelectorAll(
+    ".reveal, .letter-section, .counter-section, .music-section"
+  );
 
+  const observer = new IntersectionObserver(
+    entries => {
 
-  if ("IntersectionObserver" in window) {
+      entries.forEach(entry => {
 
-    const observer =
-      new IntersectionObserver(
-        (entries) => {
+        if (entry.isIntersecting) {
 
-          entries.forEach((entry) => {
+          entry.target.classList.add("visible");
 
-            if (entry.isIntersecting) {
-
-              entry.target.classList.add("visible");
-
-              observer.unobserve(entry.target);
-            }
-
-          });
-
-        },
-        {
-          threshold: 0.12
         }
-      );
 
+      });
 
-    animatedElements.forEach((element) => {
-      observer.observe(element);
-    });
+    },
+    {
+      threshold: 0.08
+    }
+  );
 
-  } else {
-
-    animatedElements.forEach((element) => {
-      element.classList.add("visible");
-    });
-
-  }
+  elements.forEach(el => observer.observe(el));
 
 
   // =========================
-  // CORAZONES FLOTANTES ❤️
+  // CORAZONES ❤️
   // =========================
 
   function createHeart() {
 
-    const heart = document.createElement("span");
+    // Solo después de abrir la sorpresa
+    if (cover && cover.style.display !== "none") return;
+
+    const heart = document.createElement("div");
 
     heart.className = "floating-heart";
 
-    const hearts = [
-      "❤️",
-      "💕",
-      "💗",
-      "🩷"
-    ];
+    const emojis = ["❤️", "💕", "🩷"];
 
     heart.textContent =
-      hearts[
-        Math.floor(Math.random() * hearts.length)
-      ];
+      emojis[Math.floor(Math.random() * emojis.length)];
 
     heart.style.left =
-      Math.random() * 100 + "vw";
+      Math.random() * 95 + "vw";
 
     heart.style.fontSize =
-      (12 + Math.random() * 12) + "px";
+      (14 + Math.random() * 10) + "px";
 
     heart.style.animationDuration =
-      (6 + Math.random() * 5) + "s";
+      (7 + Math.random() * 4) + "s";
 
     document.body.appendChild(heart);
 
-
     setTimeout(() => {
-
       heart.remove();
-
     }, 11000);
-
   }
 
-
-  // No llenamos demasiado la pantalla
-  setInterval(createHeart, 2400);
-
-
-  // =========================
-  // PEQUEÑO DETALLE 🧸
-  // =========================
-
-  console.log(
-    "Para mi Osita ❤️ — hecho por tu Osito 🧸"
-  );
+  setInterval(createHeart, 2600);
 
 });
