@@ -1,329 +1,120 @@
-<!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#110b18">
-<title>Para mi Osita ❤️</title>
-<link rel="stylesheet" href="style.css">
-</head>
+const btn = document.getElementById("openBtn");
+const main = document.getElementById("contenido");
+const cover = document.getElementById("inicio");
+const music = document.getElementById("bgMusic");
 
-<body>
+btn.addEventListener("click", () => {
 
-<div class="stars" aria-hidden="true"></div>
+  // Mostrar la carta
+  main.classList.remove("hidden");
 
-<section class="cover" id="inicio">
-  <div class="cover-card">
-    <div class="tiny">🧸 ❤️ 🧸</div>
-    <h1>Para mi Osita</h1>
-    <p>Te hice algo chiquito porque te amo mucho 🥺❤️</p>
+  // Iniciar música
+  music.volume = 0.72;
+  music.play().catch(() => {});
 
-    <button id="openBtn">
-      Tengo algo para ti ❤️
-    </button>
+  // Desvanecer portada
+  cover.style.transition = "opacity 0.7s ease";
+  cover.style.opacity = "0";
 
-    <small>— tu Osito</small>
-  </div>
-</section>
+  setTimeout(() => {
+    cover.style.display = "none";
 
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
 
-<main id="contenido" class="hidden">
+    // Activar primera animación
+    document.querySelectorAll(".reveal").forEach(el => {
+      if (el.getBoundingClientRect().top < window.innerHeight) {
+        el.classList.add("show");
+      }
+    });
 
-  <section class="intro reveal">
+  }, 700);
 
-    <span class="eyebrow">
-      05 • 12 • 2025
-    </span>
+});
 
-    <h2>Holi mi amor ❤️</h2>
 
-    <p class="lead">
-      Quería hacerte algo bonito y diferente porque a veces siento
-      que un simple “te amo” se queda demasiado corto para decirte
-      todo lo que siento por ti.
-    </p>
+// CONTADOR ❤️
 
-  </section>
+const start = new Date("2025-12-05T11:00:00-05:00");
 
+function tick() {
 
-  <section class="letter reveal">
+  const total = Math.max(
+    0,
+    Math.floor((Date.now() - start.getTime()) / 1000)
+  );
 
-    <header class="letter-head">
+  const days = Math.floor(total / 86400);
+  const hours = Math.floor((total % 86400) / 3600);
+  const minutes = Math.floor((total % 3600) / 60);
+  const seconds = total % 60;
 
-      <span class="letter-kicker">
-        una cartita para ti
-      </span>
+  document.getElementById("days").textContent = days;
 
-      <h2>Para mi Osita ❤️</h2>
+  document.getElementById("hours").textContent =
+    String(hours).padStart(2, "0");
 
-      <div class="letter-date">
-        05 · 12 · 2025
-      </div>
+  document.getElementById("minutes").textContent =
+    String(minutes).padStart(2, "0");
 
-    </header>
+  document.getElementById("seconds").textContent =
+    String(seconds).padStart(2, "0");
+}
 
+tick();
+setInterval(tick, 1000);
 
-    <div class="letter-divider">
-      <span>♡</span>
-    </div>
 
+// ANIMACIONES AL HACER SCROLL ✨
 
-    <p>
-      Desde aquel <b>5 de diciembre</b>, me hiciste y me sigues
-      haciendo <b>el chico más feliz del mundo</b>.
-    </p>
+const observer = new IntersectionObserver(
+  entries => {
 
+    entries.forEach(entry => {
 
-    <p>
-      Sé que estos meses no siempre han sido fáciles.
-      La distancia muchas veces no nos deja vernos como quisiéramos
-      y créeme que no hay nada que quiera más que poder tenerte
-      cerquita, abrazarte, darte muchos besitos y simplemente
-      estar contigo.
-    </p>
+      if (entry.isIntersecting) {
+        entry.target.classList.add("show");
+      }
 
+    });
 
-    <p>
-      Pero incluso con la distancia, te elegiría una y mil veces.
-      Porque eres <b>mi Osita</b>, mi amor, la mujer que amo con
-      toda mi alma y la persona que quiero a mi lado en mi futuro. ❤️
-    </p>
+  },
+  {
+    threshold: 0.12
+  }
+);
 
+document.querySelectorAll(".reveal").forEach(el => {
+  observer.observe(el);
+});
 
-    <div class="little-note">
-      sí, me puse cursi JSJS 😭❤️
-    </div>
 
+// CONTROLES DE MÚSICA 🎵
 
-    <p>
-      Y cuando te hablo de nuestro futuro, no te lo digo solamente
-      por ser cursi JSJS.
+const toggle = document.getElementById("musicToggle");
+const volume = document.getElementById("volume");
 
-      De verdad me estoy esforzando y ahorrando para que algún día
-      podamos tener una vida tranquila juntos.
+toggle.addEventListener("click", () => {
 
-      Quiero nuestra casita, viajar contigo, cumplir nuestras metas,
-      casarnos y sí mi amor…
-      <b>tener muchos bebés contigo JAJAJA ❤️</b>.
-    </p>
+  if (music.paused) {
 
+    music.play();
 
-    <div class="scribble">
-      todo eso contigo, obvio 🥺
-    </div>
+    toggle.textContent = "❚❚ Pausar música";
 
+  } else {
 
-    <p>
-      Quiero vivir muchísimas cosas contigo.
+    music.pause();
 
-      Quiero estar cuando estés feliz, cuando estés triste,
-      cuando necesites que te escuche y hasta cuando estés
-      enojada conmigo JSJS.
-    </p>
+    toggle.textContent = "▶ Reproducir música";
 
+  }
 
-    <p class="big">
-      Quiero seguir siendo tu Osito durante muchísimo tiempo.
-    </p>
+});
 
-
-    <p>
-      Y aunque no sé exactamente todo lo que nos espera,
-      hay algo de lo que sí estoy seguro:
-    </p>
-
-
-    <p class="big highlight">
-      quiero que seas tú. ❤️
-    </p>
-
-
-    <div class="you">
-
-      <span>Tú en mis planes.</span>
-
-      <span>Tú en mis logros.</span>
-
-      <span>Tú en mis abrazos.</span>
-
-      <span>Tú en mi casa.</span>
-
-      <span>Tú formando una familia conmigo.</span>
-
-      <strong>Tú en mi vida.</strong>
-
-    </div>
-
-
-    <p>
-      Gracias por hacerme tan feliz desde aquel 5 de diciembre.
-
-      Gracias por quererme, gracias por ser mi Osita
-      y gracias por dejarme ser tu Osito. 🧸❤️
-    </p>
-
-
-    <p>
-      Todavía nos quedan demasiadas cosas por vivir juntos,
-      mi amor.
-
-      Esto es solamente una pequeña parte de todo lo que
-      quiero vivir contigo.
-    </p>
-
-
-    <div class="letter-divider final">
-      <span>♥</span>
-    </div>
-
-
-    <p class="ending">
-      Te amo demasiado, Osita.
-      <br>
-      Te amo con mi alma. ❤️
-    </p>
-
-
-    <div class="promise">
-      y esto apenas empieza…
-    </div>
-
-
-    <p class="signature">
-
-      <small>
-        con todo mi amor,
-      </small>
-
-      — Tu Osito 🧸
-
-    </p>
-
-  </section>
-
-
-
-  <section class="song reveal">
-
-    <div class="music-icon">
-      ♫
-    </div>
-
-    <p>
-      Y quería que leyeras esto con esta canción 🥺
-    </p>
-
-    <h3>
-      Beginning Middle End
-    </h3>
-
-    <span>
-      Leah Nobel
-    </span>
-
-
-    <div class="player">
-
-      <button id="musicToggle" type="button">
-        ❚❚ Pausar música
-      </button>
-
-      <input
-        id="volume"
-        aria-label="Volumen"
-        type="range"
-        min="0"
-        max="1"
-        step="0.05"
-        value="0.72"
-      >
-
-    </div>
-
-
-    <small>
-      La canción empezó cuando abriste la sorpresa ❤️
-    </small>
-
-  </section>
-
-
-  <audio
-    id="bgMusic"
-    src="beginning-middle-end.mp3"
-    preload="auto"
-    loop>
-  </audio>
-
-
-
-  <section class="counter-section reveal">
-
-    <div class="tiny">
-      🧸 ❤️ 🧸
-    </div>
-
-
-    <h2>
-      Desde aquel 5 de diciembre…
-    </h2>
-
-
-    <p>
-      me haces el chico más feliz del mundo.
-    </p>
-
-
-    <div class="counter">
-
-      <div>
-        <b id="days">0</b>
-        <span>días</span>
-      </div>
-
-      <div>
-        <b id="hours">00</b>
-        <span>horas</span>
-      </div>
-
-      <div>
-        <b id="minutes">00</b>
-        <span>minutos</span>
-      </div>
-
-      <div>
-        <b id="seconds">00</b>
-        <span>segundos</span>
-      </div>
-
-    </div>
-
-
-    <p class="counting">
-      y cada segundo contigo sigue contando… ❤️
-    </p>
-
-
-    <h3>
-      Osita ❤️ Osito
-    </h3>
-
-
-    <div class="date">
-      05 • 12 • 2025
-    </div>
-
-
-    <p class="last">
-      Y todavía nos queda toda una vida por delante 🥺❤️
-    </p>
-
-  </section>
-
-</main>
-
-
-<script src="script.js"></script>
-
-</body>
-</html>
+volume.addEventListener("input", () => {
+  music.volume = Number(volume.value);
+});
