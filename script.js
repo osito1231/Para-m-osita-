@@ -1,195 +1,79 @@
-document.addEventListener("DOMContentLoaded", () => {
+const btn = document.getElementById("openBtn");
+const main = document.getElementById("contenido");
+const cover = document.getElementById("inicio");
+const music = document.getElementById("bgMusic");
 
-  const btn = document.getElementById("openBtn");
-  const contenido = document.getElementById("contenido");
-  const cover = document.getElementById("cover");
-  const music = document.getElementById("bgMusic");
-  const toggle = document.getElementById("musicToggle");
-  const vol = document.getElementById("volume");
+btn.addEventListener("click", () => {
 
-  // =========================
-  // ABRIR SORPRESA
-  // =========================
+  // Música
+  music.volume = 0.72;
+  music.play().catch(() => {});
 
-  if (btn) {
-    btn.addEventListener("click", () => {
+  // Quitar portada
+  cover.style.display = "none";
 
-      // Mostrar TODO el contenido
-      if (contenido) {
-        contenido.classList.remove("hidden");
-        contenido.style.display = "block";
-        contenido.style.visibility = "visible";
-        contenido.style.opacity = "1";
-      }
+  // Mostrar contenido
+  main.classList.remove("hidden");
+  main.style.display = "block";
+  main.style.opacity = "1";
+  main.style.visibility = "visible";
 
-      // Música
-      if (music) {
-        music.volume = 0.72;
-        music.play().catch(() => {});
-      }
+  // Mostrar las secciones
+  document.querySelectorAll(".reveal").forEach(el => {
+    el.classList.add("show");
+  });
 
-      // Quitar portada
-      if (cover) {
-        cover.style.transition = "opacity .7s ease";
-        cover.style.opacity = "0";
-
-        setTimeout(() => {
-          cover.style.display = "none";
-
-          // Nos lleva al principio de la sorpresa
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-          });
-        }, 700);
-      }
-    });
-  }
+  // Volver arriba
+  window.scrollTo(0, 0);
+});
 
 
-  // =========================
-  // CONTADOR ❤️
-  // =========================
+// ❤️ CONTADOR
 
-  const start = new Date("2025-12-05T11:00:00-05:00");
+const start = new Date("2025-12-05T11:00:00-05:00");
 
-  const daysEl = document.getElementById("days");
-  const hoursEl = document.getElementById("hours");
-  const minutesEl = document.getElementById("minutes");
-  const secondsEl = document.getElementById("seconds");
+function tick() {
 
-  function updateCounter() {
-
-    let diff = Date.now() - start.getTime();
-
-    if (diff < 0) diff = 0;
-
-    const total = Math.floor(diff / 1000);
-
-    const days = Math.floor(total / 86400);
-    const hours = Math.floor((total % 86400) / 3600);
-    const minutes = Math.floor((total % 3600) / 60);
-    const seconds = total % 60;
-
-    if (daysEl) daysEl.textContent = days;
-
-    if (hoursEl)
-      hoursEl.textContent = String(hours).padStart(2, "0");
-
-    if (minutesEl)
-      minutesEl.textContent = String(minutes).padStart(2, "0");
-
-    if (secondsEl)
-      secondsEl.textContent = String(seconds).padStart(2, "0");
-  }
-
-  updateCounter();
-  setInterval(updateCounter, 1000);
-
-
-  // =========================
-  // PLAY / PAUSA
-  // =========================
-
-  if (toggle && music) {
-
-    toggle.addEventListener("click", () => {
-
-      if (music.paused) {
-
-        music.play().catch(() => {});
-
-        toggle.textContent = "Ⅱ Pausar música";
-
-      } else {
-
-        music.pause();
-
-        toggle.textContent = "▶ Reproducir música";
-      }
-
-    });
-  }
-
-
-  // =========================
-  // VOLUMEN
-  // =========================
-
-  if (vol && music) {
-
-    vol.addEventListener("input", () => {
-
-      music.volume = Number(vol.value);
-
-    });
-  }
-
-
-  // =========================
-  // ANIMACIONES
-  // =========================
-
-  const elements = document.querySelectorAll(
-    ".reveal, .letter-section, .counter-section, .music-section"
+  const total = Math.max(
+    0,
+    Math.floor((Date.now() - start.getTime()) / 1000)
   );
 
-  const observer = new IntersectionObserver(
-    entries => {
+  const days = Math.floor(total / 86400);
+  const hours = Math.floor((total % 86400) / 3600);
+  const minutes = Math.floor((total % 3600) / 60);
+  const seconds = total % 60;
 
-      entries.forEach(entry => {
+  document.getElementById("days").textContent = days;
+  document.getElementById("hours").textContent =
+    String(hours).padStart(2, "0");
+  document.getElementById("minutes").textContent =
+    String(minutes).padStart(2, "0");
+  document.getElementById("seconds").textContent =
+    String(seconds).padStart(2, "0");
+}
 
-        if (entry.isIntersecting) {
-
-          entry.target.classList.add("visible");
-
-        }
-
-      });
-
-    },
-    {
-      threshold: 0.08
-    }
-  );
-
-  elements.forEach(el => observer.observe(el));
+tick();
+setInterval(tick, 1000);
 
 
-  // =========================
-  // CORAZONES ❤️
-  // =========================
+// 🎵 CONTROLES DE MÚSICA
 
-  function createHeart() {
+const toggle = document.getElementById("musicToggle");
+const volume = document.getElementById("volume");
 
-    // Solo después de abrir la sorpresa
-    if (cover && cover.style.display !== "none") return;
+toggle.addEventListener("click", () => {
 
-    const heart = document.createElement("div");
-
-    heart.className = "floating-heart";
-
-    const emojis = ["❤️", "💕", "🩷"];
-
-    heart.textContent =
-      emojis[Math.floor(Math.random() * emojis.length)];
-
-    heart.style.left =
-      Math.random() * 95 + "vw";
-
-    heart.style.fontSize =
-      (14 + Math.random() * 10) + "px";
-
-    heart.style.animationDuration =
-      (7 + Math.random() * 4) + "s";
-
-    document.body.appendChild(heart);
-
-    setTimeout(() => {
-      heart.remove();
-    }, 11000);
+  if (music.paused) {
+    music.play();
+    toggle.textContent = "❚❚ Pausar música";
+  } else {
+    music.pause();
+    toggle.textContent = "▶ Reproducir música";
   }
 
-  setInterval(createHeart, 2600);
+});
 
+volume.addEventListener("input", () => {
+  music.volume = Number(volume.value);
 });
