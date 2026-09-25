@@ -114,3 +114,64 @@ function crearCorazon() {
 }
 
 setInterval(crearCorazon, 1400);
+
+/* =========================================
+   ❤️ CORAZONES FLOTANTES DEL FONDO
+   ========================================= */
+
+.heart-layer {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.floating-heart {
+  position: absolute;
+  bottom: -50px;
+
+  color: #f2c4d7;
+  opacity: 0;
+
+  pointer-events: none;
+
+  text-shadow:
+    0 0 8px rgba(242,196,215,.45),
+    0 0 18px rgba(242,196,215,.20);
+
+  animation-name: subirCorazon;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes subirCorazon {
+
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+
+  12% {
+    opacity: .55;
+  }
+
+  75% {
+    opacity: .35;
+  }
+
+  100% {
+    transform: translateY(-115vh) rotate(25deg);
+    opacity: 0;
+  }
+}
+
+/* La página queda por encima de los corazones */
+
+.cover,
+#contenido {
+  position: relative;
+  z-index: 3;
+}
