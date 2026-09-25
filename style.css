@@ -512,3 +512,150 @@ transform:rotate(-1deg)
   }
 
 }
+/* ========================================
+   ❤️ FINAL ESPECIAL
+   ======================================== */
+
+.ending {
+  position: relative;
+  padding: 38px 15px;
+  text-align: center;
+  overflow: visible;
+}
+
+/* Brillo romántico detrás del texto */
+
+.ending::before {
+  content: "";
+  position: absolute;
+
+  width: 220px;
+  height: 120px;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(242, 196, 215, .35) 0%,
+      rgba(242, 196, 215, .12) 45%,
+      transparent 72%
+    );
+
+  filter: blur(12px);
+  z-index: -1;
+
+  animation: brilloAmor 3s ease-in-out infinite;
+}
+
+@keyframes brilloAmor {
+
+  0%, 100% {
+    opacity: .45;
+    transform: translate(-50%, -50%) scale(.9);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+}
+
+
+/* ❤️ Corazones alrededor del final */
+
+.promise {
+  position: relative;
+  text-align: center;
+  margin-top: 25px;
+}
+
+.promise::before,
+.promise::after {
+  position: absolute;
+  font-size: 22px;
+
+  animation: corazonFlotante 3s ease-in-out infinite;
+}
+
+.promise::before {
+  content: "♡";
+  left: 12%;
+  top: -15px;
+}
+
+.promise::after {
+  content: "♥";
+  right: 12%;
+  top: 8px;
+
+  animation-delay: 1.2s;
+}
+
+@keyframes corazonFlotante {
+
+  0% {
+    opacity: 0;
+    transform: translateY(15px) scale(.7);
+  }
+
+  35% {
+    opacity: .8;
+  }
+
+  70% {
+    opacity: .6;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-25px) scale(1.2);
+  }
+}
+
+
+/* 🧸 Firma con entrada elegante */
+
+.signature {
+  text-align: right;
+
+  animation: firmaEntrada linear both;
+  animation-timeline: view();
+  animation-range: entry 5% cover 30%;
+}
+
+@keyframes firmaEntrada {
+
+  from {
+    opacity: 0;
+    transform: translateX(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+/* ❤️ Último latido */
+
+.ending strong,
+.ending b {
+  display: inline-block;
+  animation: ultimoLatido 2s ease-in-out infinite;
+}
+
+@keyframes ultimoLatido {
+
+  0%, 100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.04);
+  }
+}
