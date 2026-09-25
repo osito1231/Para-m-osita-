@@ -1,3 +1,5 @@
+alert("JS FUNCIONA ❤️");
+
 // ==========================================
 // 🧸 PARA MI OSITA ❤️
 // JAVASCRIPT
