@@ -61,3 +61,55 @@
     -webkit-backdrop-filter: none !important;
   }
 }
+/* =========================================
+   ❤️ CORAZONES FLOTANTES DEL FONDO
+   Seguro para iPhone
+========================================= */
+
+.floating-hearts {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.floating-heart {
+  position: absolute;
+  bottom: -50px;
+
+  color: #f2c4d7;
+
+  opacity: 0;
+
+  animation: subirCorazon linear forwards;
+
+  will-change: transform, opacity;
+}
+
+/* Todo el contenido queda encima */
+.cover,
+#contenido {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes subirCorazon {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+
+  12% {
+    opacity: .35;
+  }
+
+  75% {
+    opacity: .22;
+  }
+
+  100% {
+    transform: translateY(-115vh) rotate(25deg);
+    opacity: 0;
+  }
+}
