@@ -25,12 +25,23 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.addEventListener("click", () => {
 
       // Mostrar contenido
-      main.classList.remove("hidden");
+      // ✨ Cerrar portada suavemente
+cover.classList.add("abriendo");
 
-      main.style.display = "block";
-      main.style.opacity = "1";
-      main.style.visibility = "visible";
+setTimeout(() => {
 
+  // Quitar portada
+  cover.style.display = "none";
+
+  // Mostrar contenido
+  main.classList.remove("hidden");
+  main.classList.add("entrada-suave");
+
+  main.style.display = "block";
+  main.style.opacity = "1";
+  main.style.visibility = "visible";
+
+}, 650);
       // Mostrar secciones
       document.querySelectorAll(".reveal").forEach((el) => {
         el.classList.add("show");
