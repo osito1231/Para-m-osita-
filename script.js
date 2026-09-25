@@ -77,3 +77,40 @@ toggle.addEventListener("click", () => {
 volume.addEventListener("input", () => {
   music.volume = Number(volume.value);
 });
+// ==========================================
+// ❤️ CORAZONES FLOTANTES
+// ==========================================
+
+const heartLayer = document.createElement("div");
+heartLayer.className = "floating-hearts";
+document.body.appendChild(heartLayer);
+
+function crearCorazon() {
+  const heart = document.createElement("span");
+
+  heart.className = "floating-heart";
+
+  const corazones = ["♡", "♥", "♡"];
+  heart.textContent =
+    corazones[Math.floor(Math.random() * corazones.length)];
+
+  heart.style.left =
+    Math.random() * 100 + "%";
+
+  heart.style.fontSize =
+    12 + Math.random() * 18 + "px";
+
+  heart.style.animationDuration =
+    8 + Math.random() * 6 + "s";
+
+  heart.style.animationDelay =
+    Math.random() * 1 + "s";
+
+  heartLayer.appendChild(heart);
+
+  setTimeout(() => {
+    heart.remove();
+  }, 15000);
+}
+
+setInterval(crearCorazon, 1400);
