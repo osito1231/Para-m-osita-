@@ -659,3 +659,81 @@ transform:rotate(-1deg)
     transform: scale(1.04);
   }
 }
+/* ========================================
+   FIX iPHONE — CARTA SIEMPRE NÍTIDA ❤️
+======================================== */
+
+/* Evita blur/filtros accidentales */
+.letter,
+.letter p,
+.letter .ending,
+.letter .signature,
+.letter .promise,
+.letter .you,
+.letter .little-note,
+.letter .scribble {
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+/* El texto final siempre queda nítido */
+.ending {
+  opacity: 1 !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  text-shadow: 0 0 18px rgba(242, 196, 215, 0.18);
+}
+
+/* ❤️ Latido elegante */
+.ending strong,
+.ending b {
+  display: inline-block;
+  animation: latidoSuave 2s ease-in-out infinite !important;
+}
+
+@keyframes latidoSuave {
+  0%, 100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.035);
+  }
+}
+
+/* "y esto apenas empieza..." */
+.promise {
+  opacity: 1 !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+/* Firma limpia */
+.signature {
+  opacity: 1 !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+/* Corazoncitos decorativos */
+.promise::before,
+.promise::after {
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+/* Safari / iPhone */
+@supports (-webkit-touch-callout: none) {
+  .letter,
+  .letter * {
+    -webkit-filter: none !important;
+    filter: none !important;
+  }
+
+  .signature {
+    animation: none !important;
+    transform: none !important;
+  }
+}
